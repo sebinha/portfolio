@@ -1,24 +1,10 @@
 'use server';
 
-import { auth, youtube } from '@googleapis/youtube';
 import { sql } from './postgres';
 import {
   unstable_cache as cache,
   unstable_noStore as noStore,
 } from 'next/cache';
-
-let googleAuth = new auth.GoogleAuth({
-  credentials: {
-    client_email: process.env.GOOGLE_CLIENT_EMAIL,
-    private_key: process.env.GOOGLE_PRIVATE_KEY,
-  },
-  scopes: ['https://www.googleapis.com/auth/youtube.readonly'],
-});
-
-let yt = youtube({
-  version: 'v3',
-  auth: googleAuth,
-});
 
 export async function getBlogViews() {
   if (!process.env.POSTGRES_URL) {

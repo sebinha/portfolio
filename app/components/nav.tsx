@@ -2,16 +2,19 @@ import Link from 'next/link';
 
 const navItems = {
   '/': {
-    name: 'home',
+    name: 'início',
   },
-  '/work': {
-    name: 'work',
+  '/trabalho': {
+    name: 'trabalho',
   },
-  '/blog': {
-    name: 'blog',
+  '/projetos': {
+    name: 'projetos',
   },
-  '/guestbook': {
-    name: 'guestbook',
+  '/visitas': {
+    name: 'visitas',
+  },
+  '/aprendizado': {
+    name: 'aprendizado',
   },
 };
 

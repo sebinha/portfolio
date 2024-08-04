@@ -1,22 +1,6 @@
-import { Suspense } from 'react';
-import { unstable_noStore as noStore } from 'next/cache';
-import Link from 'next/link';
-import Image from 'next/image';
-import smashing from 'public/images/home/smashing.jpg';
-import summit from 'public/images/home/summit.jpg';
-import reactathon from 'public/images/home/reactathon.jpg';
-import ship from 'public/images/home/ship.jpg';
-import filming from 'public/images/home/filming.jpg';
-import meetups from 'public/images/home/meetups.jpg';
-import vercel from 'public/images/home/vercel.jpg';
-import avatar from 'app/avatar.jpg';
-import ViewCounter from 'app/blog/view-counter';
+import BaseLayout from 'app/layouts/BaseLayout.tsx';
+import Card from 'app/components/Card.tsx';
 import { PreloadResources } from 'app/preload';
-import {
-  getLeeYouTubeSubs,
-  getVercelYouTubeSubs,
-  getViewsCount,
-} from 'app/db/queries';
 
 function Badge(props) {
   return (
@@ -45,96 +29,28 @@ function ArrowIcon() {
   );
 }
 
-function ChannelLink({ img, link, name }) {
+function ArrowIconDown() {
   return (
-    <div className="group flex w-full">
-      <a
-        href={link}
-        target="_blank"
-        className="flex w-full items-center justify-between rounded border border-neutral-200 bg-neutral-50 px-3 py-4 dark:border-neutral-700 dark:bg-neutral-800"
-      >
-        <div className="flex items-center space-x-3">
-          <div className="relative h-16">
-            <Image
-              alt={name}
-              src={img}
-              height={64}
-              width={64}
-              sizes="33vw"
-              className="h-16 w-16 rounded-full border border-neutral-200 dark:border-neutral-700"
-              priority
-            />
-            <div className="relative -right-10 -top-6 inline-flex h-6 w-6 items-center rounded-full border border-neutral-200 bg-white p-1 dark:border-neutral-700">
-              <svg width="15" height="11" role="img" aria-label="YouTube logo">
-                <use href="/sprite.svg#youtube" />
-              </svg>
-            </div>
-          </div>
-          <div className="flex flex-col">
-            <p className="font-medium text-neutral-900 dark:text-neutral-100">
-              {name}
-            </p>
-            <Suspense fallback={<p className="h-6" />}>
-              <Subs name={name} />
-            </Suspense>
-          </div>
-        </div>
-        <div className="transform text-neutral-700 transition-transform duration-300 group-hover:-rotate-12 dark:text-neutral-300">
-          <ArrowIcon />
-        </div>
-      </a>
-    </div>
+    <svg
+      width="20"
+      height="20"
+      viewBox="0 0 22 20"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M11.292 16.706a1 1 0 0 0 1.416 0l3-3a1 1 0 0 0-1.414-1.414L13 13.586V4a1 1 0 0 0-2 0v9.586l-1.293-1.293a1 1 0 0 0-1.414 1.414zM17 19H7a1 1 0 0 0 0 2h10a1 1 0 0 0 0-2z"
+        fill="currentColor"
+      />
+    </svg>
   );
-}
-
-async function Subs({ name }: { name: string }) {
-  noStore();
-  let subscribers;
-  if (name === '@leerob') {
-    subscribers = await getLeeYouTubeSubs();
-  } else {
-    subscribers = await getVercelYouTubeSubs();
-  }
-
-  return (
-    <p className="text-neutral-600 dark:text-neutral-400">
-      {subscribers} subscribers
-    </p>
-  );
-}
-
-function BlogLink({ slug, name }) {
-  return (
-    <div className="group">
-      <a
-        href={`/blog/${slug}`}
-        className="flex w-full items-center justify-between rounded border border-neutral-200 bg-neutral-50 px-3 py-4 dark:border-neutral-700 dark:bg-neutral-800"
-      >
-        <div className="flex flex-col">
-          <p className="font-medium text-neutral-900 dark:text-neutral-100">
-            {name}
-          </p>
-          <Suspense fallback={<p className="h-6" />}>
-            <Views slug={slug} />
-          </Suspense>
-        </div>
-        <div className="transform text-neutral-700 transition-transform duration-300 group-hover:-rotate-12 dark:text-neutral-300">
-          <ArrowIcon />
-        </div>
-      </a>
-    </div>
-  );
-}
-
-async function Views({ slug }: { slug: string }) {
-  let views = await getViewsCount();
-  return <ViewCounter allViews={views} slug={slug} />;
 }
 
 export default function Page() {
   return (
     <section>
       <PreloadResources />
+      {/* 
       <h1 className="mb-8 text-2xl font-medium tracking-tighter">
         hey, I'm leerob 👋
       </h1>
@@ -181,9 +97,9 @@ export default function Page() {
           React
         </Badge>
         .
-      </p>
-      <div className="grid grid-cols-2 grid-rows-4 sm:grid-rows-3 sm:grid-cols-3 gap-4 my-8">
-        <div className="relative h-40">
+      </p> */}
+      {/* <div className="grid grid-cols-2 grid-rows-4 sm:grid-rows-3 sm:grid-cols-3 gap-4 my-8"> */}
+      {/* <div className="relative h-40">
           <Image
             alt="Me speaking on stage at React Summit about the future of Next.js"
             src={summit}
@@ -242,95 +158,34 @@ export default function Page() {
             priority
             className="rounded-lg object-cover"
           />
-        </div>
-      </div>
-      <div className="prose prose-neutral dark:prose-invert">
-        <p>
-          I create educational content for developers, teaching them about web
-          development, JavaScript and TypeScript, React and Next.js, and more.
-          This comes in all forms: blog posts, videos, tweets, conference talks,
-          and workshops. You can watch some of my favorites below.
-        </p>
-      </div>
-      <div className="my-8 flex w-full flex-col space-x-0 space-y-4 sm:flex-row sm:space-x-4 sm:space-y-0">
-        <ChannelLink
-          img={avatar}
-          name="@leerob"
-          link="https://www.youtube.com/@leerob"
+        </div> */}
+
+      {/* </div> */}
+      <BaseLayout
+        title="Victor Fernandes"
+        description="Meta description. Here goes your page description. Provide a clear and concise summary of the content."
+      >
+        <Card
+          name="Victor Fernandes"
+          position="Full Stack Web Developer"
+          aboutMe={`
+Sou um apaixonado por tecnologia e adoro trabalhar com desenvolvimento fullstack. Ultimamente, tenho me aventurado no mundo da inteligência artificial, e estou animado com as possibilidades. Para mim, o que realmente importa são as conexões que fazemos e como podemos colaborar para alcançar algo incrível. Meu grande sonho é criar soluções que não apenas façam a diferença na vida das pessoas, mas que também contribuam para um futuro melhor.`}
+          // linkedin="https://www.linkedin.com/in/#"
+          // github="https://github.com/alcarazbrian"
+          // cvLink="app/files/resume-cv.pdf"
+          profileImage="/images/profile.jpg"
         />
-        <ChannelLink
-          img={vercel}
-          name="@vercel"
-          link="https://www.youtube.com/@vercelhq"
-        />
-      </div>
-      <div className="prose prose-neutral dark:prose-invert">
-        <p>
-          Over the past decade, I've written content on my blog and newsletter.
-          I try to keep things simple. You'll find writing about technologies
-          I'm interested in at the time, or how I'm learning and growing in my
-          career, sharing knowledge along the way.
-        </p>
-      </div>
-      <div className="my-8 flex w-full flex-col space-y-4">
-        <BlogLink
-          name="What Makes A Great Developer Experience?"
-          slug="developer-experience"
-        />
-        <BlogLink name="What is Developer Relations?" slug="devrel" />
-        <BlogLink name="The Story of Heroku" slug="heroku" />
-      </div>
-      <div className="prose prose-neutral dark:prose-invert">
-        <p>
-          I invest small angel checks into early stage startups building tools
-          for developers.
-        </p>
-      </div>
-      <div className="my-8 flex h-14 w-full flex-row space-x-2 overflow-x-auto">
-        <a href="https://linear.app" className="flex items-center justify-between rounded border border-neutral-200 bg-neutral-50 px-3 py-4 dark:border-neutral-700 dark:bg-neutral-800">
-          <svg width="78" height="20" role="img" aria-label="Linear logo">
-            <use href="/sprite.svg#linear" />
-          </svg>
-        </a>
-        <a href="https://supabase.com" className="flex items-center justify-between rounded border border-neutral-200 bg-neutral-50 px-3 py-4 dark:border-neutral-700 dark:bg-neutral-800">
-          <svg width="100" height="19" role="img" aria-label="Supabase logo">
-            <use href="/sprite.svg#supabase" />
-          </svg>
-        </a>
-        <a href="https://www.makeswift.com/blog/makeswift-is-joining-bigcommerce" className="flex items-center justify-between rounded border border-neutral-200 bg-neutral-50 px-3 py-4 dark:border-neutral-700 dark:bg-neutral-800">
-          <svg width="96" height="19" role="img" aria-label="Makeswift logo">
-            <use href="/sprite.svg#makeswift" />
-          </svg>
-        </a>
-        <a href="https://resend.com" className="flex items-center justify-between rounded border border-neutral-200 bg-neutral-50 px-3 py-4 dark:border-neutral-700 dark:bg-neutral-800">
-          <svg width="70" height="17" role="img" aria-label="Resend logo">
-            <use href="/sprite.svg#resend" />
-          </svg>
-        </a>
-        <a href="https://bun.sh" className="flex items-center justify-between rounded border border-neutral-200 bg-neutral-50 px-3 py-4 dark:border-neutral-700 dark:bg-neutral-800">
-          <svg width="35" height="27" role="img" aria-label="Bun logo">
-            <use href="/sprite.svg#bun" />
-          </svg>
-        </a>
-      </div>
-      <div className="prose prose-neutral dark:prose-invert">
-        <p>
-          I've worked with and advised companies on{' '}
-          <Link href="/blog/developer-marketing">developer marketing</Link>,{' '}
-          <Link href="/blog/devrel">developer relations</Link>, building
-          open-source communities, product-led growth, and more.
-        </p>
-      </div>
+      </BaseLayout>
       <ul className="font-sm mt-8 flex flex-col space-x-0 space-y-2 text-neutral-600 md:flex-row md:space-x-4 md:space-y-0 dark:text-neutral-300">
         <li>
           <a
             className="flex items-center transition-all hover:text-neutral-800 dark:hover:text-neutral-100"
             rel="noopener noreferrer"
             target="_blank"
-            href="https://twitter.com/leeerob"
+            href="https://www.linkedin.com/in/vctf/"
           >
             <ArrowIcon />
-            <p className="ml-2 h-7">follow me</p>
+            <p className="ml-2 h-7">conecte-se comigo</p>
           </a>
         </li>
         <li>
@@ -338,10 +193,22 @@ export default function Page() {
             className="flex items-center transition-all hover:text-neutral-800 dark:hover:text-neutral-100"
             rel="noopener noreferrer"
             target="_blank"
-            href="https://leerob.substack.com"
+            href="https://github.com/sebinha"
           >
             <ArrowIcon />
-            <p className="ml-2 h-7">get email updates</p>
+            <p className="ml-2 h-7">meus repos</p>
+          </a>
+        </li>
+        <li>
+          <a
+            className="flex items-center transition-all hover:text-neutral-800 dark:hover:text-neutral-100"
+            rel="noopener noreferrer"
+            target="_blank"
+            download="curriculo-victor-fernandes.pdf"
+            href="https://drive.usercontent.google.com/download?id=1MQrpt5KRhkMeH-2aYwDVx7TpW9dUA53g&export=download&authuser=0&confirm=t&uuid=6223fdd9-d108-4e4a-80cb-e4e40fe7b3c9&at=APZUnTXvRlea7ZReRPxScwh4z-fS:1722653156998"
+          >
+            <ArrowIconDown />
+            <p className="ml-2 h-4">meu cv</p>
           </a>
         </li>
       </ul>
