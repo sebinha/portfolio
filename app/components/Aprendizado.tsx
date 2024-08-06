@@ -3,6 +3,8 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import dynamic from 'next/dynamic';
+import dotenv from "dotenv"
+dotenv.config()
 
 const MonacoEditor = dynamic(() => import('react-monaco-editor'), { ssr: false });
 
@@ -10,11 +12,13 @@ const GITHUB_API_BASE = 'https://api.github.com/repos';
 const OWNER = 'sebinha'; 
 const REPO = 'study-codes-udemy'; 
 const BRANCH = 'main'; 
-const ACCESS_TOKEN = process.env.GITHUB_ACCESS_TOKEN
+const ACCESS_TOKEN = process.env.NEXT_PUBLIC_GITHUB_ACCESS_TOKEN
+
 
 const fetchRepositoryContents = async (path = '') => {
   try {
     const url = `${GITHUB_API_BASE}/${OWNER}/${REPO}/contents/${path}?ref=${BRANCH}`;
+    console.log(ACCESS_TOKEN)
     const response = await fetch(url, {
       headers: {
         Authorization: `token ${ACCESS_TOKEN}`,
