@@ -7,10 +7,10 @@ import dynamic from 'next/dynamic';
 const MonacoEditor = dynamic(() => import('react-monaco-editor'), { ssr: false });
 
 const GITHUB_API_BASE = 'https://api.github.com/repos';
-const OWNER = 'sebinha'; // Substitua com seu nome de usuário do GitHub
-const REPO = 'study-codes-udemy'; // Substitua com o nome do seu repositório
-const BRANCH = 'main'; // Substitua com o nome do seu branch
-const ACCESS_TOKEN = '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'; // Substitua pelo seu token de acesso
+const OWNER = 'sebinha'; 
+const REPO = 'study-codes-udemy'; 
+const BRANCH = 'main'; 
+const ACCESS_TOKEN = process.env.GITHUB_ACCESS_TOKEN
 
 const fetchRepositoryContents = async (path = '') => {
   try {
