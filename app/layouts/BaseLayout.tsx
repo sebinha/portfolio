@@ -1,3 +1,4 @@
+// @ts-nocheck
 export default function BaseLayout({ title = "Teste", description, children }) {
   return (
     <>

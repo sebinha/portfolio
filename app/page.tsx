@@ -1,5 +1,6 @@
-import BaseLayout from 'app/layouts/BaseLayout.tsx';
-import Card from 'app/components/Card.tsx';
+
+import BaseLayout from 'app/layouts/BaseLayout';
+import Card from 'app/components/Card';
 import { PreloadResources } from 'app/preload';
 
 function Badge(props) {

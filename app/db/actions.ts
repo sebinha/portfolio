@@ -68,8 +68,9 @@ export async function deleteGuestbookEntries(selectedEntries: string[]) {
 
   let selectedEntriesAsNumbers = selectedEntries.map(Number);
   let arrayLiteral = `{${selectedEntriesAsNumbers.join(',')}}`;
+  const query = 'DELETE FROM guestbook WHERE id = ANY($1::int[])';
 
-  await conn.query(`DELETE FROM guestbook WHERE id = ANY(${arrayLiteral}::int[])`)
+  await conn.query(query, [arrayLiteral])
 
   revalidatePath('/admin');
   revalidatePath('/visitas');

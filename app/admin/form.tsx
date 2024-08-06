@@ -5,8 +5,8 @@ import { useState, useEffect } from 'react';
 import { deleteGuestbookEntries } from 'app/db/actions';
 
 export default function Form({ entries }) {
-  const [selectedInputs, setSelectedInputs] = useState<string[]>([]);
-  const [startShiftClickIndex, setStartShiftClickIndex] = useState<number>(0);
+  const [selectedInputs, setSelectedInputs] = useState([]);
+  const [startShiftClickIndex, setStartShiftClickIndex] = useState(0);
   const [isShiftKeyPressed, setIsShiftKeyPressed] = useState(false);
   const [isCommandKeyPressed, setIsCommandKeyPressed] = useState(false);
 

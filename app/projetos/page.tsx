@@ -1,6 +1,5 @@
 import { ThreeDCardDemo } from "app/components/Card3D";
 import SwiperProjects from "app/components/Swiper";
-import SwiperCoverFlow from "app/components/SwiperCoverFlow";
 
 export const metadata = {
   title: 'Projetos',
