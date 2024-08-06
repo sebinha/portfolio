@@ -19,10 +19,7 @@ const nextConfig = {
       return [];
     }
 
-    let redirects = await sql`
-      SELECT source, destination, permanent
-      FROM redirects;
-    `;
+    let redirects = await sql`SELECT source, destination, permanent FROM redirects`
 
     return redirects.map(({ source, destination, permanent }) => ({
       source,

@@ -1,7 +1,6 @@
-import Link from 'next/link';
-import { Suspense } from 'react';
-import { getViewsCount } from 'app/db/queries';
-import { getBlogPosts } from 'app/db/blog';
+import { ThreeDCardDemo } from "app/components/Card3D";
+import SwiperProjects from "app/components/Swiper";
+import SwiperCoverFlow from "app/components/SwiperCoverFlow";
 
 export const metadata = {
   title: 'Projetos',
@@ -15,6 +14,7 @@ export default function Projetos() {
       <h1 className="font-medium text-2xl mb-8 tracking-tighter">
         veja meus projetos
       </h1>
+      <SwiperProjects/>
     </section>
   );
 }

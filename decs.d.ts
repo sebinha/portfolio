@@ -1,0 +1,6 @@
+declare module "swiper/react"
+declare module "react"
+declare module "swiper/modules"
+declare module "next/image"
+declare module "next/link"
+// declare module "@/lib/utils"

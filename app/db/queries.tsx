@@ -1,6 +1,5 @@
 'use server';
-
-import { sql } from './postgres';
+import conn from './postgres';
 import {
   unstable_cache as cache,
   unstable_noStore as noStore,
@@ -12,10 +11,7 @@ export async function getBlogViews() {
   }
 
   noStore();
-  let views = await sql`
-    SELECT count
-    FROM views
-  `;
+  let views = await conn.query("SELECT count FROM views")
 
   return views.reduce((acc, curr) => acc + Number(curr.count), 0);
 }
@@ -23,15 +19,13 @@ export async function getBlogViews() {
 export async function getViewsCount(): Promise<
   { slug: string; count: number }[]
 > {
-  if (!process.env.POSTGRES_URL) {
+  if (!conn) {
     return [];
   }
 
   noStore();
-  return sql`
-    SELECT slug, count
-    FROM views
-  `;
+  return await conn.query("SELECT slug, count FROM views")
+    
 }
 
 export const getLeeYouTubeSubs = cache(
@@ -67,15 +61,29 @@ export const getVercelYouTubeSubs = cache(
 );
 
 export async function getGuestbookEntries() {
-  if (!process.env.POSTGRES_URL) {
+  if (!process.env.POSTGRES_HOST) {
     return [];
   }
 
   noStore();
-  return sql`
-    SELECT id, body, created_by, updated_at
-    FROM guestbook
-    ORDER BY created_at DESC
-    LIMIT 100
-  `;
+  try {
+    const result = await conn.query(
+      'SELECT id, body, created_by, updated_at FROM guestbook ORDER BY created_at DESC LIMIT 100'
+    );
+    return result.rows;
+  } catch (error) {
+    console.error('Error executing query', error);
+    throw error;}
 }
+
+// import pool from './postgres'
+
+// export default async function handler(req,res){
+//   try{
+//     const result = await pool.query('SELECT * FROM tokens')
+//     res.status(200).json(result.rows)
+//   } catch (error){
+//     console.error('Error executing query', error)
+//     res.status(500).json({error:"Internal Server Error"})
+//   }
+// }

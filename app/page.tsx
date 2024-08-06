@@ -50,117 +50,6 @@ export default function Page() {
   return (
     <section>
       <PreloadResources />
-      {/* 
-      <h1 className="mb-8 text-2xl font-medium tracking-tighter">
-        hey, I'm leerob 👋
-      </h1>
-      <p className="prose prose-neutral dark:prose-invert">
-        {`I'm a frontend developer, optimist, and community builder. I currently `}
-        <Link href="/work">work</Link>
-        {` as the VP of Product at `}
-        <span className="not-prose">
-          <Badge href="https://vercel.com/home">
-            <svg
-              width="13"
-              height="11"
-              role="img"
-              aria-label="Vercel logo"
-              className="mr-1 inline-flex"
-            >
-              <use href="/sprite.svg#vercel" />
-            </svg>
-            Vercel
-          </Badge>
-        </span>
-        {`, where I help teach the `}
-        <Badge href="https://nextjs.org">
-          <img
-            alt="Next.js logomark"
-            src="/next-logo.svg"
-            className="!mr-1"
-            width="14"
-            height="14"
-          />
-          Next.js
-        </Badge>
-        {` community, an open-source web framework built with `}
-        <Badge href="https://react.dev">
-          <svg
-            width="14"
-            height="14"
-            role="img"
-            aria-label="React logo"
-            className="!mr-1"
-          >
-            <use href="/sprite.svg#react" />
-          </svg>
-          React
-        </Badge>
-        .
-      </p> */}
-      {/* <div className="grid grid-cols-2 grid-rows-4 sm:grid-rows-3 sm:grid-cols-3 gap-4 my-8"> */}
-      {/* <div className="relative h-40">
-          <Image
-            alt="Me speaking on stage at React Summit about the future of Next.js"
-            src={summit}
-            fill
-            sizes="(max-width: 768px) 213px, 33vw"
-            priority
-            className="rounded-lg object-cover"
-          />
-        </div>
-        <div className="relative sm:row-span-2 row-span-1">
-          <Image
-            alt="Me standing on stage at Reactathon delivering the keynote"
-            src={reactathon}
-            fill
-            sizes="(max-width: 768px) 213px, 33vw"
-            priority
-            className="rounded-lg object-cover object-top sm:object-center"
-          />
-        </div>
-        <div className="relative">
-          <Image
-            alt="Me and Guillermo Rauch on stage for Vercel Ship, answering questions from the Next.js community"
-            src={ship}
-            fill
-            sizes="(max-width: 768px) 213px, 33vw"
-            priority
-            className="rounded-lg object-cover"
-          />
-        </div>
-        <div className="relative row-span-2">
-          <Image
-            alt="Me, Lydia, and Delba filming the Next.js Conf keynote"
-            src={filming}
-            fill
-            sizes="(max-width: 768px) 213px, 33vw"
-            priority
-            className="rounded-lg object-cover sm:object-center"
-          />
-        </div>
-        <div className="relative row-span-2">
-          <Image
-            alt="My badge on top of a pile of badges from a Vercel meetup we held"
-            src={meetups}
-            fill
-            sizes="(max-width: 768px) 213px, 33vw"
-            priority
-            className="rounded-lg object-cover"
-          />
-        </div>
-        <div className="relative h-40">
-          <Image
-            alt="Me standing on stage at SmashingConf giving a talk about my optimism for the web"
-            src={smashing}
-            fill
-            sizes="(max-width: 768px) 213px, 33vw"
-            priority
-            className="rounded-lg object-cover"
-          />
-        </div> */}
-
-      {/* </div> */}
       <BaseLayout
         title="Victor Fernandes"
         description="Meta description. Here goes your page description. Provide a clear and concise summary of the content."
@@ -170,9 +59,6 @@ export default function Page() {
           position="Full Stack Web Developer"
           aboutMe={`
 Sou um apaixonado por tecnologia e adoro trabalhar com desenvolvimento fullstack. Ultimamente, tenho me aventurado no mundo da inteligência artificial, e estou animado com as possibilidades. Para mim, o que realmente importa são as conexões que fazemos e como podemos colaborar para alcançar algo incrível. Meu grande sonho é criar soluções que não apenas façam a diferença na vida das pessoas, mas que também contribuam para um futuro melhor.`}
-          // linkedin="https://www.linkedin.com/in/#"
-          // github="https://github.com/alcarazbrian"
-          // cvLink="app/files/resume-cv.pdf"
           profileImage="/images/profile.jpg"
         />
       </BaseLayout>

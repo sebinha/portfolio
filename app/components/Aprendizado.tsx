@@ -12,18 +12,43 @@ const BRANCH = 'main'; // Substitua com o nome do seu branch
 const ACCESS_TOKEN = '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'; // Substitua pelo seu token de acesso
 
 const fetchRepositoryContents = async (path = '') => {
-  const url = `${GITHUB_API_BASE}/${OWNER}/${REPO}/contents/${path}?ref=${BRANCH}`;
-  const response = await fetch(url, {
-    headers: {
-      Authorization: `token ${ACCESS_TOKEN}`,
-    },
-  });
+  try {
+    const url = `${GITHUB_API_BASE}/${OWNER}/${REPO}/contents/${path}?ref=${BRANCH}`;
+    const response = await fetch(url, {
+      headers: {
+        Authorization: `token ${ACCESS_TOKEN}`,
+      },
+    });
 
-  if (response.ok) {
-    return response.json();
-  } else {
-    console.error('Failed to fetch repository contents', response.status, response.statusText);
+    if (!response.ok) {
+      throw new Error(`Failed to fetch: ${response.statusText}`);
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error('Failed to fetch repository contents:', error);
     return [];
+  }
+};
+
+const fetchFileContent = async (path: string) => {
+  try {
+    const url = `${GITHUB_API_BASE}/${OWNER}/${REPO}/contents/${path}?ref=${BRANCH}`;
+    const response = await fetch(url, {
+      headers: {
+        Authorization: `token ${ACCESS_TOKEN}`,
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`Failed to fetch file content: ${response.statusText}`);
+    }
+
+    const data = await response.json();
+    return data && data.content ? atob(data.content) : '';
+  } catch (error) {
+    console.error('Failed to fetch file content:', error);
+    return '';
   }
 };
 
@@ -31,10 +56,12 @@ const Aprendizado: React.FC = () => {
   const [treeData, setTreeData] = useState<any>({ name: REPO, children: [] });
   const [content, setContent] = useState<string>('');
   const [currentPath, setCurrentPath] = useState<string>('');
+  const [loading, setLoading] = useState<boolean>(true);
   const editorRef = useRef<any>(null);
 
   useEffect(() => {
     const loadTreeData = async () => {
+      setLoading(true);
       const data = await fetchRepositoryContents();
       const formattedData = data.map((item: any) => ({
         name: item.name,
@@ -43,6 +70,7 @@ const Aprendizado: React.FC = () => {
         children: item.type === 'dir' ? [] : undefined,
       }));
       setTreeData({ name: REPO, toggled: true, children: formattedData });
+      setLoading(false);
     };
 
     loadTreeData();
@@ -59,25 +87,6 @@ const Aprendizado: React.FC = () => {
       });
     }
   }, [editorRef.current]);
-
-  const fetchFileContent = async (path: string) => {
-    const url = `${GITHUB_API_BASE}/${OWNER}/${REPO}/contents/${path}?ref=${BRANCH}`;
-    const response = await fetch(url, {
-      headers: {
-        Authorization: `token ${ACCESS_TOKEN}`,
-      },
-    });
-
-    if (response.ok) {
-      const data = await response.json();
-      if (data && data.content) {
-        return atob(data.content);
-      }
-    } else {
-      console.error('Failed to fetch file content', response.status, response.statusText);
-    }
-    return '';
-  };
 
   const onToggle = async (node: any, toggled: boolean) => {
     if (node.type === 'dir') {
@@ -102,24 +111,36 @@ const Aprendizado: React.FC = () => {
   return (
     <div className="Aprendizado">
       <div className="sidebar">
-        {treeData && <FileExplorer data={treeData} onToggle={onToggle} />}
+        {loading ? (
+          <div className="skeleton-sidebar">
+            <SkeletonNode />
+            <SkeletonNode />
+            <SkeletonNode />
+          </div>
+        ) : (
+          treeData && <FileExplorer data={treeData} onToggle={onToggle} />
+        )}
       </div>
       <div className="editor">
-        <MonacoEditor
-          ref={editorRef}
-          width="100%"
-          height="100%"
-          language="plaintext"
-          theme="vs-dark"
-          value={content}
-          options={{
-            fontFamily:
-              "'Fira Code', 'Source Code Pro', 'Consolas', 'Monaco', 'DejaVu Sans Mono', 'Ubuntu Mono', monospace",
-            fontSize: 14,
-            lineHeight: 22,
-            readOnly: true,
-          }}
-        />
+        {loading ? (
+          <div className="skeleton-editor">Carregando...</div>
+        ) : (
+          <MonacoEditor
+            ref={editorRef}
+            width="100%"
+            height="100%"
+            language="plaintext"
+            theme="vs-dark"
+            value={content}
+            options={{
+              fontFamily:
+                "'Fira Code', 'Source Code Pro', 'Consolas', 'Monaco', 'DejaVu Sans Mono', 'Ubuntu Mono', monospace",
+              fontSize: 14,
+              lineHeight: 22,
+              readOnly: true,
+            }}
+          />
+        )}
       </div>
     </div>
   );
@@ -160,6 +181,11 @@ const FileNode: React.FC<{ node: any; onToggle: (node: any, toggled: boolean) =>
       )}
     </li>
   );
+};
+
+// Componente de esqueleto para nós de arquivo
+const SkeletonNode: React.FC = () => {
+  return <div className="skeleton-node">Carregando...</div>;
 };
 
 export default Aprendizado;
